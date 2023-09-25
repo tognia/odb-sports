@@ -2,6 +2,7 @@ import Container from '../components/container'
 import MoreStories from '../components/more-stories'
 import HeroPost from '../components/hero-post'
 import Intro from '../components/intro'
+import Articles from './Articles'
 import Layout from '../components/layout'
 import { getAllPosts } from '../lib/api'
 import Head from 'next/head'
@@ -17,13 +18,14 @@ export default function Index({ allPosts }: Props) {
   const morePosts = allPosts.slice(1)
   return (
     <>
-      <Layout>
+      {/* <Layout> */}
         <Head>
-          <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+          <title>{`Home - ${CMS_NAME}`}</title>
         </Head>
-        <Container>
+        {/* <Container> */}
           <Intro />
-          {heroPost && (
+          <Articles listArticles={[]} />
+          {/* {heroPost && (
             <HeroPost
               title={heroPost.title}
               coverImage={heroPost.coverImage}
@@ -32,10 +34,10 @@ export default function Index({ allPosts }: Props) {
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}
             />
-          )}
-          {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-        </Container>
-      </Layout>
+          )} */}
+          {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
+        {/* </Container> */}
+      {/* </Layout> */}
     </>
   )
 }
