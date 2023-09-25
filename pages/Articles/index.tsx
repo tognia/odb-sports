@@ -12,6 +12,7 @@ import {
   } from "firebase/firestore";
 import { db } from "../../database/firebase";
 import ArticleAdd from "./ArticleAdd";
+import ArticleView from "./ArticleView";
 
 
 interface ArticlesProps {
@@ -26,6 +27,7 @@ const Articles: React.FC<ArticlesProps> = ({
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
   const [isItemAdded, setIsItemAdded] = useState(false);
   const [isItemDeleted, setIsItemDeleted] = useState(false);
+  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "" });
 
  function onSubmitSucceed(e : any) {
     e.preventDefault();
@@ -73,7 +75,9 @@ const Articles: React.FC<ArticlesProps> = ({
                 key={id}
                 className="my-4w-full flex justify-between border:border-slate-900 bottom-4 hover:bg-orange-300  border-b-slate-900 bg-slate-300"
               >
-                <div className="p-4 w-full flex justify-between border-t-black">
+                <div className="p-4 w-full flex justify-between border-t-black"
+                    onClick={(e) => setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body })}
+                >
                   <span className="capitalize">{item.title}</span>
                   {/* <span>${item.price}</span> */}
                 </div>
@@ -87,6 +91,10 @@ const Articles: React.FC<ArticlesProps> = ({
           </ul>
      { showArticleAddForm && (
         <ArticleAdd onSubmitSucceed={onSubmitSucceed}/>
+     )}
+
+    { articleSelected.id!=="" && (
+        <ArticleView Article={articleSelected}/>
      )}
         
     </>
