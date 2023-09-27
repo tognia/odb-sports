@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 
-import {
-    collection,
-    addDoc
-  } from "firebase/firestore";
-  import { db } from "../../../database/firebase";
-
   type ArticleViewType = {
     id:string;
     title : string;
@@ -19,11 +13,6 @@ import {
 const ArticleView: React.FC<ArticleViewProps> = ({
   Article
 }) => {
-
- 
-  
-
-
 
   return (
     

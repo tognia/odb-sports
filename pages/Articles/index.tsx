@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import {
     collection,
-    addDoc,
-    getDoc,
     query,
     onSnapshot,
     deleteDoc,
@@ -79,8 +77,8 @@ const Articles: React.FC<ArticlesProps> = ({
                     onClick={(e) => setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body })}
                 >
                   <span className="capitalize">{item.title}</span>
-                  {/* <span>${item.price}</span> */}
-                </div>
+               </div>
+               <img src="https://firebasestorage.googleapis.com/v0/b/odb-sports.appspot.com/o/upload%2FCapture%20d'%C3%A9cran%202023-08-01%20111731.png?alt=media&token=072a5ee9-94c8-4539-be71-fe1b0419974c" width={30} height={30} />
                 <button 
                   onClick={() =>(delteItem(item.id))}
                   className="ml-8 p-4 border-l-2 border-slate-900 hover:bg-slate-900 w-16 ">
