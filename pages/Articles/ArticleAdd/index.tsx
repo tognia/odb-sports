@@ -11,7 +11,7 @@ import {
   import { v4 } from "uuid";
 
 interface ArticleAddProps {
-    onSubmitSucceed: (e: any) => void;
+    onSubmitSucceed: () => void;
 }
 
 const ArticleAdd: React.FC<ArticleAddProps> = ({
@@ -21,6 +21,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
   const [ima, setIma] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
+  let url = "";
 
     const imageChange = (e:any) => {
     e.preventDefault();
@@ -32,7 +33,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   const addItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
-      let url = ""
       if (file) {
         const storageRef = ref(storage, `files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);  
@@ -48,15 +48,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
             console.log("downloadURL",downloadURL);
             setImgUrl(downloadURL);
             url = downloadURL;
-         }).then(()=>{
-            addDoc(collection(db, "articles"), {
-            title: newItem.title,
-            body: newItem.body,
-            urlImg: url,
-          });
-         setNewItem({ title: "", body: "", urlImg:""});
-         onSubmitSucceed(e);
-         });
+         })
         }
       );
       }
@@ -70,6 +62,20 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 
   }
 
+  useEffect(() => {
+
+    const addArticle = async () => {
+      await addDoc(collection(db, "articles"), {
+        title: newItem.title,
+        body: newItem.body,
+        urlImg: imgUrl,
+      });
+     setNewItem({ title: "", body: "", urlImg:""});
+     onSubmitSucceed();
+    }
+    if(newItem.title!=="" && newItem.body!=="" && imgUrl!=="")
+    addArticle();    
+  }, [imgUrl])
 
   return (
     

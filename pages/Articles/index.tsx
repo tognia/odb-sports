@@ -27,8 +27,8 @@ const Articles: React.FC<ArticlesProps> = ({
   const [isItemDeleted, setIsItemDeleted] = useState(false);
   const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
 
- function onSubmitSucceed(e : any) {
-    e.preventDefault();
+ function onSubmitSucceed() {
+    // e.preventDefault();
     setIsItemAdded(isItemAdded+1);
     setShowArticleAddForm(false);
  }
