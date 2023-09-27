@@ -23,13 +23,13 @@ const Articles: React.FC<ArticlesProps> = ({
 }) => {
   const [items, setItems] = useState([]);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
-  const [isItemAdded, setIsItemAdded] = useState(false);
+  const [isItemAdded, setIsItemAdded] = useState(0);
   const [isItemDeleted, setIsItemDeleted] = useState(false);
-  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "" });
+  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
 
  function onSubmitSucceed(e : any) {
     e.preventDefault();
-    setIsItemAdded(!isItemAdded);
+    setIsItemAdded(isItemAdded+1);
     setShowArticleAddForm(false);
  }
 
@@ -78,7 +78,7 @@ const Articles: React.FC<ArticlesProps> = ({
                 >
                   <span className="capitalize">{item.title}</span>
                </div>
-               <img src="https://firebasestorage.googleapis.com/v0/b/odb-sports.appspot.com/o/upload%2FCapture%20d'%C3%A9cran%202023-08-01%20111731.png?alt=media&token=072a5ee9-94c8-4539-be71-fe1b0419974c" width={30} height={30} />
+               <img src={item.urlImg} width={30} height={30} />
                 <button 
                   onClick={() =>(delteItem(item.id))}
                   className="ml-8 p-4 border-l-2 border-slate-900 hover:bg-slate-900 w-16 ">

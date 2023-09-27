@@ -19,30 +19,25 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 }) => {
 
   const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
-  const [img, setImg] = useState<any>('');
   const [ima, setIma] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
 
     const imageChange = (e:any) => {
     e.preventDefault();
     if (e.target.files && e.target.files.length > 0) {
-           console.log("Change00001", "change00001");
            setIma(e.target.files[0]);
     }
   };
 
   const addItem = async (e:any) => {
     e.preventDefault();
-      // const imgRef = ref(storage, `files/${v4()}`);
-      // uploadBytes(imgRef, img);
-      console.log("BLAALALA", ima.name);
       const file = ima;
+      let url = ""
       if (file) {
-        console.log("ChangeAAAAAAA", "changeAAAAAAA");
         const storageRef = ref(storage, `files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);  
         uploadTask.on("state_changed",
-        (snapshot) => {
+        (_snapshot) => {
           
         },
         (error) => {
@@ -52,39 +47,29 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("downloadURL",downloadURL);
             setImgUrl(downloadURL);
-            if (newItem.title !== "" && newItem.body !== "") {
-                addDoc(collection(db, "articles"), {
-                title: newItem.title,
-                body: newItem.body,
-                urlImg: downloadURL,
-              });
-            }
-            setNewItem({ title: "", body: "", urlImg:""}); 
-            onSubmitSucceed(e);
+            url = downloadURL;
+         }).then(()=>{
+            addDoc(collection(db, "articles"), {
+            title: newItem.title,
+            body: newItem.body,
+            urlImg: url,
+          });
+         setNewItem({ title: "", body: "", urlImg:""});
+         onSubmitSucceed(e);
          });
         }
       );
       }
+    //  await addDoc(collection(db, "articles"), {
+    //     title: newItem.title,
+    //     body: newItem.body,
+    //     urlImg: url,
+    //   });
+    //  setNewItem({ title: "", body: "", urlImg:""});
+    //  onSubmitSucceed(e);
 
   }
 
-  const addItem1 = async (e:any) => {
-    e.preventDefault();
-    if (newItem.title !== "" && newItem.body !== "") {
-      await addDoc(collection(db, "articles"), {
-        title: newItem.title,
-        body: newItem.body,
-        // urlImg: newItem.urlImg,
-      });
-    }
-    // setNewItem({ title: "", body: ""});
-    onSubmitSucceed(e);
-  };
-
-  useEffect(() => {
-    console.log("imgUrl", imgUrl);
-
-  }, [imgUrl])
 
   return (
     
