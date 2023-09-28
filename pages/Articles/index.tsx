@@ -67,7 +67,7 @@ const Articles: React.FC<ArticlesProps> = ({
               ADD ARTICLE
       </a>
     </section>
-    <ul className="bg-slate-700 p-4 rounded-lg">
+          <ul className="bg-slate-700 p-4 rounded-lg">
             {items.map((item, id) => (
               <li
                 key={id}
