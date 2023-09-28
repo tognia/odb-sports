@@ -11,6 +11,7 @@ import Post from '../interfaces/post'
 import Navbar from '../components/navbar'
 import Sidebar from '../components/sidebar'
 
+
 type Props = {
   allPosts: Post[]
 }
@@ -26,10 +27,25 @@ export default function Index({ allPosts }: Props) {
           <title>{`Home - ${CMS_NAME}`}</title>
         </Head>
         <Navbar />
-        <Sidebar />
+        
+        <div>
+          {/* <div className="pt-0 pr-0 pb-0 pl-0 mt-0 mr-0 mb-0 ml-0">
+
+          </div> */}
+          <div className="bg-white"></div>
+          <div className="bg-white w-full">
+              <div className="flex-col w-full flex">
+                  <div className="flex w-full bg-gray-100  overflow-x-hidden">
+                      <Sidebar />
+                      <div className='ml-10'>
+                      <Articles listArticles={[]} />
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div >
         {/* <Container> */}
-          {/* <Intro /> */}
-          <Articles listArticles={[]} />
+          {/* <Intro /> */}          
           {/* {heroPost && (
             <HeroPost
               title={heroPost.title}

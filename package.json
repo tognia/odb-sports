@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "@firebase/firestore": "^4.2.0",
+    "@heroicons/react": "^2.0.18",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "firebase": "^10.4.0",
     "gray-matter": "^4.0.3",
+    "heroicons": "^2.0.18",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
