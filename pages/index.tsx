@@ -37,7 +37,7 @@ export default function Index({ allPosts }: Props) {
               <div className="flex-col w-full flex">
                   <div className="flex w-full bg-gray-100  overflow-x-hidden">
                       <Sidebar />
-                      <div className='ml-10'>
+                      <div className='ml-10 mr-10'>
                       <Articles listArticles={[]} />
                       </div>
                   </div>
