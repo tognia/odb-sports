@@ -79,9 +79,11 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 
   return (
     
-    <form className="grid grid-cols-10 items-center text-black">
-    <input type="file" onChange={imageChange} />
-    {/* <button onClick={handleUpload}>Upload</button> */}
+    <form className="grid-cols-10 flex-col w-full flex ml-10 mr-10 text-black">
+    <div className="flex-col w-full flex mt-10 ml-10 mr-10 mb-8">
+    <input title="Upload Logo" type="file" onChange={imageChange} />
+    </div>
+    <div className="flex-col max-w-full mb-8 flex ml-10 mr-10">
     <input
       value={newItem.title}
       onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
@@ -89,16 +91,18 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
       type="text"
       placeholder="Enter Title"
     />
-   
+    </div>
+    <div className="flex-col w-full flex mb-8 ml-10 mr-10">
     <textarea
      value={newItem.body}
       onChange={(e) =>
         setNewItem({ ...newItem, body: e.target.value })
       }
      rows={4}
-     className=" col-span-5 p-3 border mx-3"
+     className="col-span-2  p-3 border"
      placeholder="Write the Content here ..."
     ></textarea>
+    </div>
     <button
       onClick={addItem}
       className="text-white bg-slate-900 hover:bg-slate-900 p-3 text-xl"

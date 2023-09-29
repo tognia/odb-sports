@@ -1,4 +1,16 @@
-function Sidebar() {
+import React, { useEffect, useState } from "react";
+
+interface SideMenuProps {
+    onDisplayArticles: () => void;
+    onLogout: () => void;
+}
+
+
+const Sidebar: React.FC<SideMenuProps> = ({
+        onDisplayArticles,  
+        onLogout
+    }) => {
+
   return (
        <div className="bg-white lg:flex md:w-64 md:flex-col">
                           <div className="flex-col pt-5 flex overflow-y-auto">
@@ -23,12 +35,15 @@ function Sidebar() {
                                           </a>
                                           <a href="#" className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 block
                   transition-all duration-200 hover:bg-gray-200 group cursor-pointer">
+                                        <button onClick={()=>{onDisplayArticles()}}>
                                         <span>Articles</span>
+                                        </button>
                                           </a>
                                           <a href="#" className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
                   transition-all duration-200 hover:bg-gray-200 group cursor-pointer">
-                                              
+                                              <button onClick={()=>{onLogout()}}>
                                               <span>Logout</span>
+                                              </button>
                                           </a>
                                       </div>
                                      
