@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { useState, useEffect } from "react";
+import Sidebar1 from "../components/sidebar1";
 
 export default function Index() {
   const auth = getAuth();
@@ -70,10 +71,14 @@ export default function Index() {
         <div className="bg-white w-full">
           <div className="flex-col w-full flex ml-10 mr-10">
             <div className="flex w-auto bg-gray-100">
-              <Sidebar
+              {/* <Sidebar
                 onLogout={onLogout}
                 onDisplayArticles={onDisplayArticles}
-              />
+              /> */}
+              <Sidebar1
+                   onLogout={onLogout}
+                   onDisplayArticles={onDisplayArticles}
+                />
               <div className="flex-col w-full ml-10 mr-10">
                 <Articles
                   showArticles={showArticles}
