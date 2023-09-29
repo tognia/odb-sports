@@ -69,8 +69,8 @@ const Articles: React.FC<ArticlesProps> = ({
  
   return (
     <>
-    <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12">
-      <h4 className="text-3xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8">
+    <section className="flex-col md:flex-row flex items-center md:justify-between mt-16 mb-16 md:mb-12 ml-10 mr-10">
+      <h4 className="text-3xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 invisible md:visible">
         Articles
       </h4>
       <button><a
@@ -81,18 +81,20 @@ const Articles: React.FC<ArticlesProps> = ({
       </a></button>
     </section>
     { (!showArticleAddForm && articleSelected.id === "" || showArticles ) && (
-          <ul className="bg-slate-700 p-4 rounded-lg">
+          <ul className="bg-slate-700 p-4 rounded-lg justify-start flex-auto ml-10 mr-10">
             {items.map((item, id) => (
               <li
                 key={id}
                 className="my-4w-full flex justify-between border:border-slate-900 bottom-4 hover:bg-orange-300  border-b-slate-900 bg-slate-300"
               >
-                <div className="p-4 w-full flex justify-between border-t-black"
+                
+                <div className="p-4 w-full flex justify-start border-t-black"
                     onClick={() =>{showViewForm(item)}}
                 >
+                  <img src={item.urlImg} width={30} height={30} className="object-cover btn- h-7 w-7 rounded-full mr-2 bg-gray-300"/>
                   <span className="capitalize">{item.title}</span>
                </div>
-               <img src={item.urlImg} width={30} height={30} className="object-cover btn- h-9 w-9 rounded-full mr-2 bg-gray-300"/>
+               
                 <button 
                   onClick={() =>(delteItem(item.id))}
                   className="ml-8 p-4 border-l-2 border-slate-900 hover:bg-slate-900 w-16 ">

@@ -11,8 +11,8 @@ const Sidebar1: React.FC<SideMenuProps> = ({
         onLogout
     }) => {
     return (
-        <div className="flex">
-            <div className="flex flex-col h-screen p-3 bg-white shadow w-60">
+        <div className="hidden lg:block">
+            <div className="flex-col h-screen p-3 bg-white shadow w-60">
                 <div className="space-y-3">
                     <div className="flex items-center">
                         <h2 className="text-xl font-bold">Dashboard</h2>

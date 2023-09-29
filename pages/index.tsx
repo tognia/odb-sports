@@ -69,8 +69,8 @@ export default function Index() {
       <div>
         <div className="bg-white"></div>
         <div className="bg-white w-full">
-          <div className="flex-col w-full flex ml-10 mr-10">
-            <div className="flex w-auto bg-gray-100">
+          <div className=" w-full flex ml-10 mr-10">
+            <div className="flex w-full bg-gray-100">
               {/* <Sidebar
                 onLogout={onLogout}
                 onDisplayArticles={onDisplayArticles}
@@ -79,7 +79,7 @@ export default function Index() {
                    onLogout={onLogout}
                    onDisplayArticles={onDisplayArticles}
                 />
-              <div className="flex-col w-full ml-10 mr-10">
+              <div className="flex-col justify-center w-full ml-10 mr-10">
                 <Articles
                   showArticles={showArticles}
                   onAddOrViewArticle={onAddOrViewArticle}
