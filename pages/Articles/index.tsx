@@ -15,34 +15,34 @@ import ArticleView from "./ArticleView";
 
 interface ArticlesProps {
     showArticles: boolean;
-    onAddOrViewArticle: () => void;    
+    onAddOrViewArticle: () => void; 
+    showArticleAddForm:boolean;   
 }
 
 const Articles: React.FC<ArticlesProps> = ({
     showArticles,
-    onAddOrViewArticle
+    onAddOrViewArticle,
+    showArticleAddForm
 }) => {
   const [items, setItems] = useState([]);
-  const [showArticleAddForm, setShowArticleAddForm] = useState(false);
   const [isItemAdded, setIsItemAdded] = useState(0);
   const [isItemDeleted, setIsItemDeleted] = useState(false);
   const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
 
  function onSubmitSucceed() {
     setIsItemAdded(isItemAdded+1);
-    setShowArticleAddForm(false);
+    // setShowArticleAddForm(false);
  }
 
  function showAddForm(e:any){
   e.preventDefault();
   onAddOrViewArticle();
-  setShowArticleAddForm(true);
+  // setShowArticleAddForm(true);
  }
 
  function showViewForm(item:any){
-  // e.preventDefault();
   onAddOrViewArticle();
-  setShowArticleAddForm(false);
+  // setShowArticleAddForm(false);
   setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body })
  }
 

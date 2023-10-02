@@ -3,7 +3,7 @@ import Articles from "./Articles";
 import Head from "next/head";
 import { CMS_NAME } from "../lib/constants";
 import Navbar from "../components/navbar";
-import Sidebar from "../components/sidebar";
+
 import {
   getAuth,
   signInWithPopup,
@@ -22,6 +22,7 @@ export default function Index() {
     photoURL: "",
   });
   const [showArticles, setShowArticles] = useState(false);
+  const [showArticleAddForm, setShowArticleAddForm] = useState(false);
 
   function onLogout() {
     signOut(auth)
@@ -36,6 +37,11 @@ export default function Index() {
   function onDisplayArticles() {
     setShowArticles(true);
   }
+  function showAddForm(e:any){
+    e.preventDefault();
+    onAddOrViewArticle();
+    setShowArticleAddForm(true);
+   }
   function onAddOrViewArticle() {
     setShowArticles(false);
   }
@@ -65,7 +71,11 @@ export default function Index() {
       <Head>
         <title>{`Home - ${CMS_NAME}`}</title>
       </Head>
-      <Navbar userLogged={userLogged} />
+      <Navbar
+        userLogged={userLogged}
+        onLogout={onLogout}
+        onDisplayArticles={onDisplayArticles}
+      />
       <div>
         <div className="bg-white"></div>
         <div className="bg-white w-full">
@@ -76,13 +86,15 @@ export default function Index() {
                 onDisplayArticles={onDisplayArticles}
               /> */}
               <Sidebar1
-                   onLogout={onLogout}
-                   onDisplayArticles={onDisplayArticles}
-                />
+                onLogout={onLogout}
+                onDisplayArticles={onDisplayArticles}
+                showAddForm = {showAddForm}
+              />
               <div className="flex-col justify-center w-full ml-10 mr-10">
                 <Articles
                   showArticles={showArticles}
                   onAddOrViewArticle={onAddOrViewArticle}
+                  showArticleAddForm={showArticleAddForm}
                 />
               </div>
             </div>

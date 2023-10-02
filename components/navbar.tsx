@@ -2,11 +2,15 @@
 
   interface NavBarProps {
       userLogged: any;
+      onDisplayArticles: () => void;
+      onLogout: () => void;
   }
   
   
   const Navbar: React.FC<NavBarProps> = ({
-    userLogged
+    userLogged,
+    onDisplayArticles,
+    onLogout
       }) => {
     return (
   
@@ -19,9 +23,11 @@
                 <div>
                   {/* <img src="https://res.cloudinary.com/speedwares/image/upload/v1659284687/windframe-logo-main_daes7r.png"
                     className="block btn- h-8 w-auto" alt="" /> */}
+                  <button onClick={()=>{onDisplayArticles()}}>
                    <h5 className="text-2xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-4">
                         Odb-Sports.
                     </h5>
+                  </button>
                 </div>
                 <div className="lg:block mr-auto ml-40 hidden relative max-w-xs">
                   <p className="pl-3 items-center flex absolute inset-y-0 left-0 pointer-events-none">
@@ -69,9 +75,11 @@
                   absolute -top-px -right-1">2</p>
                   </div>
                   <div className="justify-center items-center flex relative">
+                    <button onClick={()=>{onLogout()}}>
                     <img src={userLogged?.photoURL}
                       className="object-cover btn- h-9 w-9 rounded-full mr-2 bg-gray-300" alt="" />
                     <p className="font-semibold text-sm">{userLogged?.displayName}</p>
+                    </button>
                   </div>
                 </div>
               </div>

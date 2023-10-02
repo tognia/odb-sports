@@ -3,19 +3,27 @@ import React, { useEffect, useState } from "react";
 interface SideMenuProps {
     onDisplayArticles: () => void;
     onLogout: () => void;
+    showAddForm: (e:any) => void;
 }
 
 
 const Sidebar1: React.FC<SideMenuProps> = ({
         onDisplayArticles,  
-        onLogout
+        onLogout,
+        showAddForm
     }) => {
     return (
         <div className="hidden lg:block">
             <div className="flex-col h-screen p-3 bg-white shadow w-60">
                 <div className="space-y-3">
-                    <div className="flex items-center">
-                        <h2 className="text-xl font-bold">Dashboard</h2>
+                    <div className="flex items-center mt-5">
+                        {/* <h2 className="text-xl font-bold">Dashboard</h2> */}
+                        <button><a
+                                    onClick={showAddForm}
+                                    className="mx-3 min-h-screen mt-8 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
+                                    >
+                                    ADD ARTICLE
+                            </a></button>
                     </div>
                     <div className="flex-1">
                         <ul className="pt-2 pb-4 space-y-1 text-sm">
