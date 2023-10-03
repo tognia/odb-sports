@@ -1,4 +1,6 @@
-  import React, { useEffect, useState } from "react";
+import { Button, Popconfirm, Popover } from "antd";
+import React, { useEffect, useState } from "react";
+import { CloseOutlined } from "@ant-design/icons";
 
   interface NavBarProps {
       userLogged: any;
@@ -12,6 +14,16 @@
     onDisplayArticles,
     onLogout
       }) => {
+        const [openPopup, setOpenPopup] = useState(false);
+        const [visiblePop, setVisiblePop] = useState(false)
+        const HandleRemovePopUp = () => setOpenPopup(false);
+        const content = (
+          <div>
+            <p>Content</p>
+            <p>Content</p>
+          </div>
+        );
+        
     return (
   
       <div>
@@ -74,13 +86,22 @@
                     <p className="px-1.5 py-0.5 font-semibold text-xs items-center bg-indigo-600 text-white rounded-full inline-flex
                   absolute -top-px -right-1">2</p>
                   </div>
-                  <div className="justify-center items-center flex relative">
-                    <button onClick={()=>{onLogout()}}>
-                    <img src={userLogged?.photoURL}
-                      className="object-cover btn- h-9 w-9 rounded-full mr-2 bg-gray-300" alt="" />
-                    <p className="font-semibold text-sm">{userLogged?.displayName}</p>
-                    </button>
-                  </div>
+                  <div className=" items-center flex relative">        
+                        
+                        <Popover placement="leftBottom" title="" 
+                                content={<Button onClick={() => onLogout()}>Logout</Button>}
+                                trigger="click"
+                        >
+                        
+                          <button onClick={() => setVisiblePop(true)}>
+                            <img src={userLogged?.photoURL}
+                              className="object-cover  h-9 w-9 rounded-full items-center bg-gray-300" alt="" />
+                            <p className="font-semibold text-sm">{userLogged?.displayName}</p>
+                          </button>
+                          
+                        </Popover>            
+                  </div>                                
+                                  
                 </div>
               </div>
             </div>

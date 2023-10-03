@@ -24,6 +24,7 @@ export default function Index() {
   const [showArticles, setShowArticles] = useState(false);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
 
+
   function onLogout() {
     signOut(auth)
       .then(() => {
@@ -31,7 +32,6 @@ export default function Index() {
         console.log("User logged out");
       })
       .catch((error) => {
-        // An error happened.
       });
   }
   function onDisplayArticles() {
@@ -50,7 +50,6 @@ export default function Index() {
     signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
         const user = result.user;
         setUserLogged({
           email: user.email,
@@ -60,10 +59,6 @@ export default function Index() {
         console.log("USER LOGGED", user);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
       });
   }, []);
   return userLogged.displayName !== "" ? (
@@ -79,13 +74,9 @@ export default function Index() {
       <div>
         <div className="bg-white"></div>
         <div className="bg-white w-full">
-          <div className=" w-full flex ml-10 mr-10">
+          <div className=" w-full flex ml-1 mr-10">
             <div className="flex w-full bg-gray-100">
-              {/* <Sidebar
-                onLogout={onLogout}
-                onDisplayArticles={onDisplayArticles}
-              /> */}
-              <Sidebar1
+             <Sidebar1
                 onLogout={onLogout}
                 onDisplayArticles={onDisplayArticles}
                 showAddForm = {showAddForm}
@@ -96,7 +87,9 @@ export default function Index() {
                   onAddOrViewArticle={onAddOrViewArticle}
                   showArticleAddForm={showArticleAddForm}
                 />
+
               </div>
+              
             </div>
           </div>
         </div>
