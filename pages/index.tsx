@@ -23,6 +23,7 @@ export default function Index() {
   });
   const [showArticles, setShowArticles] = useState(false);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
+  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
 
 
   function onLogout() {
@@ -41,6 +42,11 @@ export default function Index() {
     e.preventDefault();
     onAddOrViewArticle();
     setShowArticleAddForm(true);
+   }
+   function showViewForm(item:any){
+    onAddOrViewArticle();
+    setShowArticleAddForm(false);
+    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body })
    }
   function onAddOrViewArticle() {
     setShowArticles(false);
@@ -75,17 +81,19 @@ export default function Index() {
         <div className="bg-white"></div>
         <div className="bg-white w-full">
           <div className=" w-full flex ml-1 mr-10">
-            <div className="flex w-full bg-gray-100">
+            <div className="flex w-full bg-gray-100 ">
              <Sidebar1
                 onLogout={onLogout}
                 onDisplayArticles={onDisplayArticles}
                 showAddForm = {showAddForm}
+                showViewForm={showViewForm}
               />
               <div className="flex-col justify-center w-full ml-10 mr-10">
                 <Articles
                   showArticles={showArticles}
                   onAddOrViewArticle={onAddOrViewArticle}
                   showArticleAddForm={showArticleAddForm}
+                  articleSelected = {articleSelected}
                 />
 
               </div>
