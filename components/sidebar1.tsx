@@ -12,7 +12,7 @@ interface SideMenuProps {
     onDisplayArticles: () => void;
     onLogout: () => void;
     showAddForm: (e:any) => void;
-    showViewForm: (e:any) => void;
+    showViewForm: (item:any,e:any) => void;
 }
 
 
@@ -68,7 +68,9 @@ useEffect(() => {
                         
                             <div className="rounded-sm mb-1 p-4 w-full flex justify-start hover:bg-blue-200 border-t-black"
                                  key={id}
-                                 onClick={() =>{showViewForm(item)}}
+                                 onClick={(e:any) =>{
+                                    showViewForm(item, e)
+                                }}
                                >
                                 <img src={item.urlImg} width={30} height={30} className="object-cover btn- h-7 w-7 rounded-full mr-2 bg-gray-300"/>
                                 <span className="capitalize">{item.title}</span>

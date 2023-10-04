@@ -67,7 +67,6 @@ const Articles: React.FC<ArticlesProps> = ({
     await deleteDoc(doc(db,'articles', id));
     setIsItemDeleted(!isItemDeleted);
 }
- console.log("getArticles", allArticles);
   return (
     <>
     <section className="flex-col md:flex-row flex align-middle items-center md:justify-between mt-16 mb-16 md:mb-12 ml-10 mr-10">
@@ -112,7 +111,7 @@ const Articles: React.FC<ArticlesProps> = ({
      )}
 
     { (articleSelected.id!=="" && !showArticleAddForm && !showArticles) && (
-        <ArticleView Article={articleSelected}/>
+        <ArticleView Article={articleSelected} onSubmitSucceed={onSubmitSucceed}/>
      )}
         
     </>

@@ -43,10 +43,11 @@ export default function Index() {
     onAddOrViewArticle();
     setShowArticleAddForm(true);
    }
-   function showViewForm(item:any){
+   function showViewForm(item:any, e:any){
+    e.stopPropagation();
     onAddOrViewArticle();
     setShowArticleAddForm(false);
-    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body })
+    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body, urlImg:item.urlImg })
    }
   function onAddOrViewArticle() {
     setShowArticles(false);

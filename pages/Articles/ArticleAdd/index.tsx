@@ -7,8 +7,7 @@ import {
   import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
   import { db } from "../../../database/firebase";
   import { storage } from "../../../database/firebase";
-  import { getStorage, uploadBytes } from "firebase/storage";
-  import { v4 } from "uuid";
+
 
 interface ArticleAddProps {
     onSubmitSucceed: () => void;
@@ -52,14 +51,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         }
       );
       }
-    //  await addDoc(collection(db, "articles"), {
-    //     title: newItem.title,
-    //     body: newItem.body,
-    //     urlImg: url,
-    //   });
-    //  setNewItem({ title: "", body: "", urlImg:""});
-    //  onSubmitSucceed(e);
-
+  
   }
 
   useEffect(() => {
