@@ -15,7 +15,6 @@ import { CloseOutlined } from "@ant-design/icons";
     onLogout
       }) => {
         const [openPopup, setOpenPopup] = useState(false);
-        const [visiblePop, setVisiblePop] = useState(false)
         const HandleRemovePopUp = () => setOpenPopup(false);
         const content = (
           <div>
@@ -93,7 +92,7 @@ import { CloseOutlined } from "@ant-design/icons";
                                 trigger="click"
                         >
                         
-                          <button onClick={() => setVisiblePop(true)}>
+                          <button>
                             <img src={userLogged?.photoURL}
                               className="object-cover  h-9 w-9 rounded-full items-center bg-gray-300" alt="" />
                             <p className="font-semibold text-sm">{userLogged?.displayName}</p>

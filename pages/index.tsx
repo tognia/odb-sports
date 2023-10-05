@@ -3,6 +3,11 @@ import Articles from "./Articles";
 import Head from "next/head";
 import { CMS_NAME } from "../lib/constants";
 import Navbar from "../components/navbar";
+import {
+  deleteDoc,
+  doc
+} from "firebase/firestore";
+import { db } from "../database/firebase";
 
 import {
   getAuth,
@@ -24,6 +29,7 @@ export default function Index() {
   const [showArticles, setShowArticles] = useState(false);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
   const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
+  const [isItemUpdated, setisItemUpdated] = useState(0);
 
 
   function onLogout() {
@@ -43,16 +49,22 @@ export default function Index() {
     onAddOrViewArticle();
     setShowArticleAddForm(true);
    }
-   function showViewForm(item:any, e:any){
-    e.stopPropagation();
+   function showViewForm(item:any){
     onAddOrViewArticle();
     setShowArticleAddForm(false);
-    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body, urlImg:item.urlImg })
+    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body, urlImg:item.urlImg });
+    console.log("item",item);
    }
   function onAddOrViewArticle() {
     setShowArticles(false);
   }
-
+  function onSubmitSucceed() {
+    setisItemUpdated(isItemUpdated+1);
+ }
+ const delteItem = async(id) => {
+  await deleteDoc(doc(db,'articles', id));
+  setisItemUpdated(isItemUpdated+1);
+}
   useEffect(() => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -84,17 +96,18 @@ export default function Index() {
           <div className=" w-full flex ml-1 mr-10">
             <div className="flex w-full bg-gray-100 ">
              <Sidebar1
-                onLogout={onLogout}
-                onDisplayArticles={onDisplayArticles}
                 showAddForm = {showAddForm}
                 showViewForm={showViewForm}
+                isItemUpdated = {isItemUpdated}
+                delteItem = {delteItem}
               />
               <div className="flex-col justify-center w-full ml-10 mr-10">
                 <Articles
                   showArticles={showArticles}
                   onAddOrViewArticle={onAddOrViewArticle}
                   showArticleAddForm={showArticleAddForm}
-                  articleSelected = {articleSelected}
+                  articleSelected={articleSelected} 
+                  onSubmitSucceed={onSubmitSucceed}                  
                 />
 
               </div>

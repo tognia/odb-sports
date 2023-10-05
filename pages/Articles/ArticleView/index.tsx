@@ -30,7 +30,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, body: Article.body, urlImg:Article.urlImg });
+  const [title, setTitle] = useState(Article.title);
+  const [body, setBody] = useState(Article.body);
   const [ima, setIma] = useState<File>();
+  const [update, setUpdate] = useState(false);
   const [imgUrl, setImgUrl] = useState(Article.urlImg);
   const [logoFile, setLogoFile] = useState<any>();
 
@@ -44,10 +47,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   const updateItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
-      if (logoFile) {
-        url = await StorageUtils.getUrlImage(logoFile.name,logoFile, "upload")
-        const storageRef = ref(storage, `files/${logoFile.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, logoFile);  
+      // url = await StorageUtils.getUrlImage(logoFile.name,logoFile, "upload");
+      if (file) {
+        const storageRef = ref(storage, `files/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);  
         uploadTask.on("state_changed",
         (_snapshot) => {
           
@@ -63,86 +66,87 @@ const ArticleView: React.FC<ArticleViewProps> = ({
          })
         }
       );
-      }  
+      } else
+      {
+        setUpdate(true);
+      }
+  
   }
   useEffect(() => {
 
     const updateArticle = async () => {
-      // await  updateDoc(doc(db, "articles", Article.id), {
-      //   title: itemToUpdate.title,
-      //   body: itemToUpdate.body,
-      //   urlImg: imgUrl,
-      // });
-      const washingtonRef = doc(db, "articles", `${Article.id}`);
 
-      // await updateDoc(washingtonRef, {
-      //   title: itemToUpdate.title,
-      //   body: itemToUpdate.body,
-      //   urlImg: imgUrl,
-      // });
-      console.log("Fly Zone", imgUrl,
-      {
-        id : Article.id,
-        title: itemToUpdate.title,
-        body: itemToUpdate.body,
-        urlImg: imgUrl,
-      }
-      )
+      const updateRef = doc(db, "articles", `${Article.id}`);
+        if(update) {
+          await updateDoc(updateRef, {
+            title: title,
+            body: body,
+            urlImg: imgUrl,
+          });
+        }     
+ 
      onSubmitSucceed();
     }
     if(itemToUpdate.title!=="" && itemToUpdate.body!=="" && imgUrl!=="")
     updateArticle();    
-  }, [imgUrl])
+  }, [imgUrl, update])
+
+  useEffect(() => {
+      setTitle(Article.title);
+      setBody(Article.body);
+      setImgUrl(Article.urlImg);
+  }, [Article]);
 
   return (
     
-    <Form
-    layout="vertical"
-    name="nest-messages"
-    form={form}
-    autoComplete="off"
-    onSubmitCapture={updateItem}
-    style={styles.form}
-    >
+    // <Form
+    // layout="vertical"
+    // name="nest-messages"
+    // form={form}
+    // autoComplete="off"
+    // onSubmitCapture={updateItem}
+    // style={styles.form}
+    // >
+    <form className="grid-cols-10 flex-col w-full flex ml-10 mr-10 text-black">
       <div className="flex-col w-full flex mt-10 ml-10 mr-10 mb-8">
       <div className="flex-col w-full flex mt-10 ml-10 mr-10 mb-8">
-    {/* <input title="Upload Logo" type="file" onChange={imageChange} />
-        <Image
-          width={200}
-          src={Article.urlImg}
-        /> */}
-              <UploadImage 
+    
+      {/* <UploadImage 
                 onImageUpdate={setLogoFile} 
-                selectedImage={itemToUpdate.urlImg}
-              />
-
+                selectedImage={imgUrl}
+              /> */}
+     <Image
+          width={200}
+          src={imgUrl}
+        />   
+    <input title="Upload Logo" type="file" onChange={imageChange} />
       </div>
         <div className="flex-col max-w-full mb-8 flex ml-10 mr-10">
         <input
-          value={itemToUpdate.title}
+          value={title}
           className="col-span-3 p-3 border"
           type="text"
           placeholder="Enter Title"
-          onChange={(e) => setItemToUpdtate({ ...itemToUpdate, title: e.target.value })}
+          onChange={(e) => setTitle(e.target.value)}
         />
         </div>
         <div className="flex-col w-full flex mb-8 ml-10 mr-10">
     <textarea
-     value={itemToUpdate.body}
+     value={body}
       rows={4}
      className=" col-span-5 p-3 border mx-3"
      placeholder="Write the Content here ..."
-     onChange={(e) => setItemToUpdtate({ ...itemToUpdate, body: e.target.value })}
+     onChange={(e) => setBody(e.target.value)}
     ></textarea>
      </div>
-     {/* <button
+     <button
       onClick={updateItem}
       className="text-white bg-slate-900 hover:bg-slate-900 p-3 text-xl"
       type="submit"
     >
       Save
-    </button> */}
-     <Button
+    </button> 
+     {/* <Button
           type="primary"
           htmlType="submit"
           size="large"
@@ -152,9 +156,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({
           }}
         >
           SAVE
-    </Button>
+    </Button> */}
    </div>
-  </Form>
+  {/* </Form> */}
+  </form>
   );
 };
 

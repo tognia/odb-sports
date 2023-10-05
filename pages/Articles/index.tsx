@@ -15,6 +15,7 @@ import allArticles from "../../data/getArticles";
 interface ArticlesProps {
     showArticles: boolean;
     onAddOrViewArticle: () => void;
+    onSubmitSucceed:() => void;
     showArticleAddForm:boolean;  
     articleSelected : any; 
 }
@@ -23,17 +24,13 @@ const Articles: React.FC<ArticlesProps> = ({
     showArticles,
     onAddOrViewArticle,
     showArticleAddForm,
+    onSubmitSucceed,
     articleSelected
 }) => {
   const [items, setItems] = useState([]);
   const [isItemAdded, setIsItemAdded] = useState(0);
   const [isItemDeleted, setIsItemDeleted] = useState(false);
   // const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
-
- function onSubmitSucceed() {
-    setIsItemAdded(isItemAdded+1);
-    // setShowArticleAddForm(false);
- }
 
  function showAddForm(e:any){
   e.preventDefault();
