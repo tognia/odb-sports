@@ -71,11 +71,11 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 
   return (
     
-    <form className="grid-cols-10 flex-col w-full flex ml-10 mr-10 text-black">
-    <div className="flex-col w-full flex mt-10 ml-10 mr-10 mb-8">
+    <form className="grid-cols-10 flex-col xs:block lg:w-full flex ml-10 mr-1 text-black">
+    <div className="flex-col w-full flex mt-10 ml-10 mr-2 mb-8">
     <input title="Upload Logo" type="file" onChange={imageChange} />
     </div>
-    <div className="flex-col max-w-full mb-8 flex ml-10 mr-10">
+    <div className="flex-col max-w-full mb-8 flex ml-10 mr-2">
     <input
       value={newItem.title}
       onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
@@ -84,7 +84,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
       placeholder="Enter Title"
     />
     </div>
-    <div className="flex-col w-full flex mb-8 ml-10 mr-10">
+    <div className="flex-col md lg:w-800 flex mb-8 ml-10 mr-2">
     <textarea
      value={newItem.body}
       onChange={(e) =>
