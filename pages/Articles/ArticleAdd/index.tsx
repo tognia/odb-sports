@@ -7,7 +7,6 @@ import {
   import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
   import { db } from "../../../database/firebase";
   import { storage } from "../../../database/firebase";
-import Paragraph from "antd/es/skeleton/Paragraph";
 
 
 interface ArticleAddProps {
@@ -30,7 +29,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   }
   ]);
   const [nbrParagraph, setNbrParagraph] = useState(1);
-  const [idsParagraph, setIdsParagraph] = useState([]);
   let url = "";
 
     const imageChange = (e:any) => {
@@ -53,14 +51,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   const handleUpdate = (value, index) => {
     const cpy = [...componentsArray];
     cpy[index].text = value;
-    console.log("index",index);
     setNewItem({ ...newItem, body: value })
-    // setComponentsArray([
-        //   ...componentsArray,
-        //   {...item,
-        //    text: e.target.value
-        //   }
-        // ])
   }
   const addItem = async (e:any) => {
     e.preventDefault();
@@ -77,7 +68,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("downloadURL",downloadURL);
             setImgUrl(downloadURL);
             url = downloadURL;
          })
@@ -91,11 +81,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 
     const addArticle = async () => {
       await addDoc(collection(db, "articles"),
-      //  {
-      //   title: newItem.title,
-      //   body: newItem.body,
-      //   urlImg: imgUrl,
-      // }
       {
         author: author,
         createdAt: "",
@@ -117,7 +102,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     AddParagraph;
     console.log("componentsArray",componentsArray);
   }, [nbrParagraph]);
-  console.log("componentsArray",componentsArray);
 
   return (
     
@@ -143,13 +127,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
      key={item.num}
      value={componentsArray[index].text}
       onChange={(e) =>
-        // setNewItem({ ...newItem, body: e.target.value })
         handleUpdate(e.target.value, index)
-        //   ...componentsArray,
-        //   {...item,
-        //    text: e.target.value
-        //   }
-        // ])
       }
      rows={4}
      className="col-span-2  p-3 border"
