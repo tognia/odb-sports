@@ -107,7 +107,8 @@ export default function Index() {
                   onAddOrViewArticle={onAddOrViewArticle}
                   showArticleAddForm={showArticleAddForm}
                   articleSelected={articleSelected} 
-                  onSubmitSucceed={onSubmitSucceed}                  
+                  onSubmitSucceed={onSubmitSucceed}  
+                  author={userLogged.displayName  }               
                 />
 
               </div>

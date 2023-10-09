@@ -7,19 +7,30 @@ import {
   import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
   import { db } from "../../../database/firebase";
   import { storage } from "../../../database/firebase";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 
 interface ArticleAddProps {
+    author:string;
     onSubmitSucceed: () => void;
 }
 
 const ArticleAdd: React.FC<ArticleAddProps> = ({
-    onSubmitSucceed
+    onSubmitSucceed,
+    author
 }) => {
 
   const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
   const [ima, setIma] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
+  const [componentsArray, setComponentsArray] = useState([
+    {num : 1,
+    type: 'Paragraph',
+    text: ""
+  }
+  ]);
+  const [nbrParagraph, setNbrParagraph] = useState(1);
+  const [idsParagraph, setIdsParagraph] = useState([]);
   let url = "";
 
     const imageChange = (e:any) => {
@@ -28,7 +39,29 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
            setIma(e.target.files[0]);
     }
   };
+  const AddParagraph = (e:any) => {
+      e.preventDefault();
+      setNbrParagraph(nbrParagraph+1);
+      setComponentsArray([...componentsArray,
+        {
+          num:nbrParagraph+1,
+          type:"Paragraph",
+          text:""
+        } ]);
+  }
 
+  const handleUpdate = (value, index) => {
+    const cpy = [...componentsArray];
+    cpy[index].text = value;
+    console.log("index",index);
+    setNewItem({ ...newItem, body: value })
+    // setComponentsArray([
+        //   ...componentsArray,
+        //   {...item,
+        //    text: e.target.value
+        //   }
+        // ])
+  }
   const addItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
@@ -57,11 +90,21 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   useEffect(() => {
 
     const addArticle = async () => {
-      await addDoc(collection(db, "articles"), {
-        title: newItem.title,
-        body: newItem.body,
-        urlImg: imgUrl,
-      });
+      await addDoc(collection(db, "articles"),
+      //  {
+      //   title: newItem.title,
+      //   body: newItem.body,
+      //   urlImg: imgUrl,
+      // }
+      {
+        author: author,
+        createdAt: "",
+        updatedAt: "",
+        coverImage: imgUrl,
+        title:  newItem.title,
+        components: componentsArray
+    }
+      );
      setNewItem({ title: "", body: "", urlImg:""});
      onSubmitSucceed();
     }
@@ -69,12 +112,19 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     addArticle();    
   }, [imgUrl])
 
+  useEffect(() => {
+    AddParagraph;
+    console.log("componentsArray",componentsArray);
+  }, [nbrParagraph]);
+  console.log("componentsArray",componentsArray);
+
   return (
     
     <form className="grid-cols-10 flex-col xs:block lg:w-full flex ml-10 mr-1 text-black">
     <div className="flex-col w-full flex mt-10 ml-10 mr-2 mb-8">
     <input title="Upload Logo" type="file" onChange={imageChange} />
     </div>
+   
     <div className="flex-col max-w-full mb-8 flex ml-10 mr-2">
     <input
       value={newItem.title}
@@ -84,16 +134,40 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
       placeholder="Enter Title"
     />
     </div>
-    <div className="flex-col md lg:w-800 flex mb-8 ml-10 mr-2">
+    
+    {componentsArray.map((item:any, index) =>  (    
+    <div className="flex-col md lg:w-800 flex mt-3 mb-8 ml-10 mr-2">
+    <h1>{item.type+" "+item.num}</h1>
     <textarea
-     value={newItem.body}
+     key={item.num}
+     value={componentsArray[index].text}
       onChange={(e) =>
-        setNewItem({ ...newItem, body: e.target.value })
+        // setNewItem({ ...newItem, body: e.target.value })
+        handleUpdate(e.target.value, index)
+        //   ...componentsArray,
+        //   {...item,
+        //    text: e.target.value
+        //   }
+        // ])
       }
      rows={4}
      className="col-span-2  p-3 border"
      placeholder="Write the Content here ..."
     ></textarea>
+    </div>
+    
+    ))}   
+    
+    
+    <div className="flex-col max-w-full mb-8 mt-10 mb-3 flex ml-10 mr-2">
+    <button>
+              <a
+                onClick={(e:any)=>AddParagraph(e)}
+                className="mx-3 min-h-screen mt-8 bg-indigo-400 hover:bg-white hover:text-black border border-black text-blue-950 font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
+              >
+                ADD PARAGRAH
+              </a>
+            </button>
     </div>
     <button
       onClick={addItem}

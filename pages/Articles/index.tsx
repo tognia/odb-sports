@@ -18,6 +18,7 @@ interface ArticlesProps {
     onSubmitSucceed:() => void;
     showArticleAddForm:boolean;  
     articleSelected : any; 
+    author:string;
 }
 
 const Articles: React.FC<ArticlesProps> = ({
@@ -25,7 +26,8 @@ const Articles: React.FC<ArticlesProps> = ({
     onAddOrViewArticle,
     showArticleAddForm,
     onSubmitSucceed,
-    articleSelected
+    articleSelected,
+    author
 }) => {
   const [items, setItems] = useState([]);
   const [isItemAdded, setIsItemAdded] = useState(0);
@@ -104,7 +106,7 @@ const Articles: React.FC<ArticlesProps> = ({
           </ul>
        )} */}
      { (showArticleAddForm && !showArticles) && (
-        <ArticleAdd onSubmitSucceed={onSubmitSucceed}/>
+        <ArticleAdd onSubmitSucceed={onSubmitSucceed} author={author}/>
      )}
 
     { (articleSelected.id!=="" && !showArticleAddForm && !showArticles) && (
