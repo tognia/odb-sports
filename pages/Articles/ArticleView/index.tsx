@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Image } from 'antd';
+import React, {  useEffect, useState } from "react";
+import { Form, Image } from 'antd';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../database/firebase";
-import UploadImage from "../../../components/UploadImage";
 import { doc, updateDoc } from "firebase/firestore";
-import StorageUtils from "../../../utils/Storage.utils";
 
   type ArticleViewType = {
     id:string;
@@ -49,15 +47,14 @@ const ArticleView: React.FC<ArticleViewProps> = ({
            setIma(e.target.files[0]);
     }
   };
-  const handleUpdate = (value, index) => {
-    const cpy = [...componentsArray];
+  const handleUpdate = (value:string, index:number) => {
+    let cpy = [...components];
     cpy[index].text = value;
-    // setNewItem({ ...newItem, body: value })
+    setComponents(cpy);
   }
   const updateItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
-      // url = await StorageUtils.getUrlImage(logoFile.name,logoFile, "upload");
       if (file) {
         const storageRef = ref(storage, `files/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);  
@@ -73,9 +70,11 @@ const ArticleView: React.FC<ArticleViewProps> = ({
             console.log("downloadURL",downloadURL);
             setImgUrl(downloadURL);
             url = downloadURL;
+            setUpdate(true);
          })
         }
-      );
+      )
+      ;
       } else
       {
         setUpdate(true);
@@ -94,11 +93,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({
             title:  title,
             components: componentsArray,
           });
+        setUpdate(false);
         }     
  
      onSubmitSucceed();
     }
-    if(itemToUpdate.title!=="" && itemToUpdate.body!=="" && imgUrl!=="")
+    if(itemToUpdate.title!=="" && imgUrl!=="")
     updateArticle();    
   }, [imgUrl, update])
 
@@ -107,7 +107,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       setBody(Article.body);
       setImgUrl(Article.coverImage);
       setComponents(Article.components);
+      setComponentsArray(Article.components);
   }, [Article]);
+  
+  useEffect(() => {
+
+  },[componentsArray] )
 
   return (
     
@@ -128,12 +133,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({
           onChange={(e) => setTitle(e.target.value)}
         />
         </div>
-      {componentsArray.map((item:any, index) =>(
+      {components.map((item:any, index) =>(
           <div className="flex-col md lg:w-800 mt-3 flex mb-8 ml-10 mr-1">
           <h1>{item.type+" "+item.num}</h1>
           <textarea
             key={item.num}
-            value={componentsArray[index].text}
+            value={components[index].text}
             onChange={(e) =>
               handleUpdate(e.target.value, index)
             }

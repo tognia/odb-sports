@@ -48,11 +48,11 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         } ]);
   }
 
-  const handleUpdate = (value, index) => {
+  const handleUpdate = (value:string, index:number) => {
     const cpy = [...componentsArray];
     cpy[index].text = value;
-    setNewItem({ ...newItem, body: value })
-  }
+    setComponentsArray(cpy);
+     }
   const addItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
@@ -93,7 +93,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
      setNewItem({ title: "", body: "", urlImg:""});
      onSubmitSucceed();
     }
-    if(newItem.title!=="" && newItem.body!=="" && imgUrl!=="")
+    if(newItem.title!=="" && imgUrl!=="")
     addArticle();    
   }, [imgUrl])
 
