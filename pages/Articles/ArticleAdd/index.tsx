@@ -88,7 +88,6 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         coverImage: imgUrl,
         title:  newItem.title,
         components: componentsArray,
-        urlImg: imgUrl
     }
       );
      setNewItem({ title: "", body: "", urlImg:""});

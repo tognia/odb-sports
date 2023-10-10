@@ -18,7 +18,6 @@ const Sidebar1: React.FC<SideMenuProps> = ({
   isItemUpdated,
 }) => {
   const [items, setItems] = useState([]);
-  const [openPopup, setOpenPopup] = useState(false);
   const [isShown, setIsShown] = useState(false);
   const [itemSelected, setItemSelected] = useState("");
 
@@ -76,7 +75,7 @@ const Sidebar1: React.FC<SideMenuProps> = ({
                     onMouseOutCapture={() => setIsShown(false)}
                   >
                     <img
-                      src={item.urlImg}
+                      src={item.coverImage}
                       width={30}
                       height={30}
                       className="object-cover btn- h-7 w-7 rounded-full mr-2 bg-gray-300"

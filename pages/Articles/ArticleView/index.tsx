@@ -10,7 +10,8 @@ import StorageUtils from "../../../utils/Storage.utils";
     id:string;
     title : string;
     body : string;
-    urlImg : string;
+    coverImage : string;
+    components:any[];
   };
 
 
@@ -29,13 +30,17 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   onSubmitSucceed
 }) => {
   const [form] = Form.useForm();
-  const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, body: Article.body, urlImg:Article.urlImg });
+  const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, body: Article.body, coverImage:Article.coverImage });
   const [title, setTitle] = useState(Article.title);
   const [body, setBody] = useState(Article.body);
+  const [components, setComponents] = useState(Article.components);
+  const [componentsArray, setComponentsArray] = useState(Article.components);
   const [ima, setIma] = useState<File>();
   const [update, setUpdate] = useState(false);
-  const [imgUrl, setImgUrl] = useState(Article.urlImg);
+  const [imgUrl, setImgUrl] = useState(Article.coverImage);
   const [logoFile, setLogoFile] = useState<any>();
+
+  console.log('components',Article);
 
   let url: any;
   const imageChange = (e:any) => {
@@ -44,6 +49,11 @@ const ArticleView: React.FC<ArticleViewProps> = ({
            setIma(e.target.files[0]);
     }
   };
+  const handleUpdate = (value, index) => {
+    const cpy = [...componentsArray];
+    cpy[index].text = value;
+    // setNewItem({ ...newItem, body: value })
+  }
   const updateItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
@@ -79,9 +89,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       const updateRef = doc(db, "articles", `${Article.id}`);
         if(update) {
           await updateDoc(updateRef, {
-            title: title,
-            body: body,
-            urlImg: imgUrl,
+            updatedAt: "",
+            coverImage: imgUrl,
+            title:  title,
+            components: componentsArray,
           });
         }     
  
@@ -94,7 +105,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   useEffect(() => {
       setTitle(Article.title);
       setBody(Article.body);
-      setImgUrl(Article.urlImg);
+      setImgUrl(Article.coverImage);
+      setComponents(Article.components);
   }, [Article]);
 
   return (
@@ -116,15 +128,23 @@ const ArticleView: React.FC<ArticleViewProps> = ({
           onChange={(e) => setTitle(e.target.value)}
         />
         </div>
-        <div className="flex-col md lg:w-800 flex mb-8 ml-10 mr-1">
-    <textarea
-     value={body}
-      rows={4}
-     className=" col-span-5 p-3 border mx-3"
-     placeholder="Write the Content here ..."
-     onChange={(e) => setBody(e.target.value)}
-    ></textarea>
-     </div>
+      {componentsArray.map((item:any, index) =>(
+          <div className="flex-col md lg:w-800 mt-3 flex mb-8 ml-10 mr-1">
+          <h1>{item.type+" "+item.num}</h1>
+          <textarea
+            key={item.num}
+            value={componentsArray[index].text}
+            onChange={(e) =>
+              handleUpdate(e.target.value, index)
+            }
+           rows={4}
+           className=" col-span-5 p-3 border mx-3"
+          ></textarea>
+           </div>
+      ))
+
+      }
+      
      <button
       onClick={updateItem}
       className="text-white bg-slate-900 hover:bg-slate-900 p-3 text-xl"

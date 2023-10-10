@@ -28,7 +28,7 @@ export default function Index() {
   });
   const [showArticles, setShowArticles] = useState(false);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
-  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", urlImg:"" });
+  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", coverImage:"",components:[] });
   const [isItemUpdated, setisItemUpdated] = useState(0);
 
 
@@ -52,8 +52,10 @@ export default function Index() {
    function showViewForm(item:any){
     onAddOrViewArticle();
     setShowArticleAddForm(false);
-    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, body:item.body, urlImg:item.urlImg });
-    console.log("item",item);
+    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, 
+      body:item.body, components:item.components, coverImage:item.coverImage });
+      console.log("item selected",item);
+    
    }
   function onAddOrViewArticle() {
     setShowArticles(false);
