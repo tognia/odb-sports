@@ -3,6 +3,7 @@ import { Form, Image } from 'antd';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../database/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import moment from "moment-timezone";
 
   type ArticleViewType = {
     id:string;
@@ -36,7 +37,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   const [ima, setIma] = useState<File>();
   const [update, setUpdate] = useState(false);
   const [imgUrl, setImgUrl] = useState(Article.coverImage);
-  const [logoFile, setLogoFile] = useState<any>();
+  const [timezoneFixture, setTimezoneFixture] = useState<any>("Africa/Douala");
 
   console.log('components',Article);
 
@@ -51,6 +52,21 @@ const ArticleView: React.FC<ArticleViewProps> = ({
     let cpy = [...components];
     cpy[index].text = value;
     setComponents(cpy);
+  }
+  const getDate = () => {
+    let myDate = new Date();
+    const tz1 = moment.tz(myDate, timezoneFixture);
+    const m = moment.utc(myDate).tz(timezoneFixture);  
+    const offsetInMinutes = m.utcOffset();
+    const z4 = tz1.utc().format().toString().replace("T", " ").replace("Z", "");
+    const offset_hrs: any = (
+      "0" + Number(Math.abs(offsetInMinutes / 60))
+    ).slice(-2);
+    const offset_min: any = ("0" + Math.abs(offsetInMinutes % 60)).slice(-2);
+    const z5 = z4 + "+" + offset_hrs + "" + offset_min;
+    console.log("Date Now 2025",z5);
+
+      return z5;
   }
   const updateItem = async (e:any) => {
     e.preventDefault();
@@ -88,7 +104,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       const updateRef = doc(db, "articles", `${Article.id}`);
         if(update) {
           await updateDoc(updateRef, {
-            updatedAt: "",
+            updatedAt: getDate(),
             coverImage: imgUrl,
             title:  title,
             components: componentsArray,

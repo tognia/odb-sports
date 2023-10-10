@@ -3,6 +3,7 @@ import Articles from "./Articles";
 import Head from "next/head";
 import { CMS_NAME } from "../lib/constants";
 import Navbar from "../components/navbar";
+
 import {
   deleteDoc,
   doc
@@ -18,6 +19,8 @@ import {
 import { useState, useEffect } from "react";
 import Sidebar1 from "../components/sidebar1";
 
+
+
 export default function Index() {
   const auth = getAuth();
   const provider = new GoogleAuthProvider(); // Initialize the GoogleAuthProvider
@@ -30,8 +33,8 @@ export default function Index() {
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
   const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", coverImage:"",components:[] });
   const [isItemUpdated, setisItemUpdated] = useState(0);
-
-
+ 
+  
   function onLogout() {
     signOut(auth)
       .then(() => {

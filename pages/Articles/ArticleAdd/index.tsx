@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment-timezone";
 
 import {
     collection,
@@ -29,6 +30,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   }
   ]);
   const [nbrParagraph, setNbrParagraph] = useState(1);
+  const [timezoneFixture, setTimezoneFixture] = useState<any>("Africa/Douala");
   let url = "";
 
     const imageChange = (e:any) => {
@@ -46,6 +48,22 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
           type:"Paragraph",
           text:""
         } ]);
+  }
+
+  const getDate = () => {
+    let myDate = new Date();
+    const tz1 = moment.tz(myDate, timezoneFixture);
+    const m = moment.utc(myDate).tz(timezoneFixture);  
+    const offsetInMinutes = m.utcOffset();
+    const z4 = tz1.utc().format().toString().replace("T", " ").replace("Z", "");
+    const offset_hrs: any = (
+      "0" + Number(Math.abs(offsetInMinutes / 60))
+    ).slice(-2);
+    const offset_min: any = ("0" + Math.abs(offsetInMinutes % 60)).slice(-2);
+    const z5 = z4 + "+" + offset_hrs + "" + offset_min;
+    console.log("Date Now 2025",z5);
+
+      return z5;
   }
 
   const handleUpdate = (value:string, index:number) => {
@@ -83,7 +101,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
       await addDoc(collection(db, "articles"),
       {
         author: author,
-        createdAt: "",
+        createdAt: getDate(),
         updatedAt: "",
         coverImage: imgUrl,
         title:  newItem.title,
