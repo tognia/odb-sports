@@ -108,6 +108,7 @@ const Sidebar1: React.FC<SideMenuProps> = ({
                           onCancel={cancel}
                           okText="Yes"
                           cancelText="No"
+                          okType = "danger"
                         >
                         <Button onClick={() => setItemToDelete(item.id) }>
                           DELETE
