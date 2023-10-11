@@ -21,7 +21,7 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     author
 }) => {
 
-  const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
+  const [title, setTitle] = useState( "");
   const [ima, setIma] = useState<File>();
   const [imgUrl, setImgUrl] = useState("");
   const [componentsArray, setComponentsArray] = useState([
@@ -103,14 +103,14 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         createdAt: getDate(),
         updatedAt: "",
         coverImage: imgUrl,
-        title:  newItem.title,
+        title:  title,
         components: componentsArray,
     }
       );
-     setNewItem({ title: "", body: "", urlImg:""});
+     setTitle("");
      onSubmitSucceed();
     }
-    if(newItem.title!=="" && imgUrl!=="")
+    if(title!=="" && imgUrl!=="")
     addArticle();    
   }, [imgUrl])
 
@@ -123,10 +123,10 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     
     <ArticleForm
       edit = {false} 
-      newItem={newItem} 
-      setNewItem={setNewItem} 
+      title={title} 
+      setTitle={setTitle} 
       componentsArray={componentsArray}
-      onSubmitSucceed={onSubmitSucceed} 
+      imgUrl = {imgUrl}
       imageChange={imageChange} 
       handleUpdate={handleUpdate} 
       AddParagraph={AddParagraph} 

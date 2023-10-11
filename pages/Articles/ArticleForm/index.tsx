@@ -1,10 +1,11 @@
 import React from "react";
+import {Image } from 'antd';
 
 interface ArticleFormProps {
-    newItem : any;
-    setNewItem: (item:any) => void;
+    title : any;
+    setTitle: (item:any) => void;
     componentsArray:any[];
-    onSubmitSucceed: () => void;
+    imgUrl: string;
     imageChange: (e:any) => void;
     handleUpdate: (e:any, index:any) => void;
     AddParagraph: (e:any) => void;
@@ -13,10 +14,10 @@ interface ArticleFormProps {
 }
 
 const ArticleForm: React.FC<ArticleFormProps> = ({
-    newItem,
-    setNewItem,
+    title,
+    setTitle,
     componentsArray,
-    onSubmitSucceed,
+    imgUrl,
     imageChange,
     handleUpdate,
     AddParagraph,
@@ -30,13 +31,17 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
     
     <form className="grid-cols-10 flex-col xs:block lg:w-full flex ml-10 mr-1 text-black">
     <div className="flex-col w-full flex mt-10 ml-10 mr-2 mb-8">
+    <Image
+          width={200}
+          src={imgUrl}
+        />   
     <input title="Upload Logo" type="file" onChange={imageChange} />
     </div>
    
     <div className="flex-col max-w-full mb-8 flex ml-10 mr-2">
     <input
-      value={newItem.title}
-      onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
+      value={title}
+      onChange={(e) => setTitle( e.target.value)}
       className="col-span-3 p-3 border"
       type="text"
       placeholder="Enter Title"

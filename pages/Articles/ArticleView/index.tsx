@@ -32,17 +32,13 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   const [form] = Form.useForm();
   const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, body: Article.body, coverImage:Article.coverImage });
   const [title, setTitle] = useState(Article.title);
-  const [body, setBody] = useState(Article.body);
   const [components, setComponents] = useState(Article.components);
   const [componentsArray, setComponentsArray] = useState(Article.components);
-  const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
   const [ima, setIma] = useState<File>();
   const [update, setUpdate] = useState(false);
   const [imgUrl, setImgUrl] = useState(Article.coverImage);
   const timezoneFixture = "Africa/Douala";
-  const [nbrParagraph, setNbrParagraph] = useState(1);
-
-  console.log('components',Article);
+  const [nbrParagraph, setNbrParagraph] = useState(Article.components.length);
 
   let url: any;
   const imageChange = (e:any) => {
@@ -52,9 +48,9 @@ const ArticleView: React.FC<ArticleViewProps> = ({
     }
   };
   const handleUpdate = (value:string, index:number) => {
-    let cpy = [...components];
+    let cpy = [...componentsArray];
     cpy[index].text = value;
-    setComponents(cpy);
+    setComponentsArray(cpy);
   }
   const getDate = () => {
     let myDate = new Date();
@@ -134,7 +130,6 @@ const ArticleView: React.FC<ArticleViewProps> = ({
 
   useEffect(() => {
       setTitle(Article.title);
-      setBody(Article.body);
       setImgUrl(Article.coverImage);
       setComponents(Article.components);
       setComponentsArray(Article.components);
@@ -147,11 +142,11 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   return (
     
     <ArticleForm
-      edit = {false} 
-      newItem={newItem} 
-      setNewItem={setNewItem} 
+      edit = {true} 
+      title={title} 
+      setTitle={setTitle}
       componentsArray={componentsArray}
-      onSubmitSucceed={onSubmitSucceed} 
+      imgUrl = {imgUrl}
       imageChange={imageChange} 
       handleUpdate={handleUpdate} 
       AddParagraph={AddParagraph} 
