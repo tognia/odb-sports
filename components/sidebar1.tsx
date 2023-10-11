@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Popconfirm, Popover } from "antd";
+import { Button, Popconfirm, message, Popover } from "antd";
 import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "../database/firebase";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -20,6 +20,7 @@ const Sidebar1: React.FC<SideMenuProps> = ({
   const [items, setItems] = useState([]);
   const [isShown, setIsShown] = useState(false);
   const [itemSelected, setItemSelected] = useState("");
+  const [itemToDelete, setItemToDelete] = useState("");
 
   // Read Items from database
   useEffect(() => {
@@ -33,6 +34,14 @@ const Sidebar1: React.FC<SideMenuProps> = ({
       return unsubscribe();
     });
   }, [isItemUpdated]);
+
+  const confirm = (e: React.MouseEvent<HTMLElement>) => {
+    delteItem(itemToDelete);
+    message.success('Article Deleted with success');
+  };
+  
+  const cancel = (e: React.MouseEvent<HTMLElement>) => {
+     };
 
   return (
     <div className="hidden lg:block">
@@ -91,7 +100,20 @@ const Sidebar1: React.FC<SideMenuProps> = ({
                       <Popover
                         placement="leftBottom"
                         title=""
-                        content={<Button onClick={() => {delteItem(item.id)}}>DELETE</Button>}
+                        content={
+                      <Popconfirm
+                          title="Delete the task"
+                          description="Are you sure to delete this Article ?"
+                          onConfirm={confirm}
+                          onCancel={cancel}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                        <Button onClick={() => setItemToDelete(item.id) }>
+                          DELETE
+                        </Button>
+                        </Popconfirm>
+                      }
                         trigger="click"
                         className="ml-5"
                       >
