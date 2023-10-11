@@ -4,6 +4,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../database/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import moment from "moment-timezone";
+import ArticleForm from "../ArticleForm";
 
   type ArticleViewType = {
     id:string;
@@ -34,10 +35,12 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   const [body, setBody] = useState(Article.body);
   const [components, setComponents] = useState(Article.components);
   const [componentsArray, setComponentsArray] = useState(Article.components);
+  const [newItem, setNewItem] = useState({ title: "", body: "", urlImg:"" });
   const [ima, setIma] = useState<File>();
   const [update, setUpdate] = useState(false);
   const [imgUrl, setImgUrl] = useState(Article.coverImage);
-  const [timezoneFixture, setTimezoneFixture] = useState<any>("Africa/Douala");
+  const timezoneFixture = "Africa/Douala";
+  const [nbrParagraph, setNbrParagraph] = useState(1);
 
   console.log('components',Article);
 
@@ -68,6 +71,17 @@ const ArticleView: React.FC<ArticleViewProps> = ({
 
       return z5;
   }
+  const AddParagraph = (e:any) => {
+    e.preventDefault();
+    setNbrParagraph(nbrParagraph+1);
+    setComponentsArray([...componentsArray,
+      {
+        num:nbrParagraph+1,
+        type:"Paragraph",
+        text:""
+      } ]);
+}
+
   const updateItem = async (e:any) => {
     e.preventDefault();
       const file = ima;
@@ -132,48 +146,17 @@ const ArticleView: React.FC<ArticleViewProps> = ({
 
   return (
     
-    <form className="grid-cols-10 flex-col xs:block lg:w-full flex ml-10 mr-1 text-black">
-      <div className="flex-col w-full flex mt-10 ml-10 mr-1 mb-8">
-     <Image
-          width={200}
-          src={imgUrl}
-        />   
-    <input title="Upload Logo" type="file" onChange={imageChange} />
-      </div>
-        <div className="flex-col max-w-full mb-8 flex ml-10 mr-1">
-        <input
-          value={title}
-          className="col-span-3 p-3 border"
-          type="text"
-          placeholder="Enter Title"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        </div>
-      {components.map((item:any, index) =>(
-          <div className="flex-col md lg:w-800 mt-3 flex mb-8 ml-10 mr-1">
-          <h1>{item.type+" "+item.num}</h1>
-          <textarea
-            key={item.num}
-            value={components[index].text}
-            onChange={(e) =>
-              handleUpdate(e.target.value, index)
-            }
-           rows={4}
-           className=" col-span-5 p-3 border mx-3"
-          ></textarea>
-           </div>
-      ))
-
-      }
-      
-     <button
-      onClick={updateItem}
-      className="text-white bg-slate-900 hover:bg-slate-900 p-3 text-xl"
-      type="submit"
-    >
-      Save
-    </button> 
-  </form>
+    <ArticleForm
+      edit = {false} 
+      newItem={newItem} 
+      setNewItem={setNewItem} 
+      componentsArray={componentsArray}
+      onSubmitSucceed={onSubmitSucceed} 
+      imageChange={imageChange} 
+      handleUpdate={handleUpdate} 
+      AddParagraph={AddParagraph} 
+      addItem={updateItem}
+       />
   );
 };
 
