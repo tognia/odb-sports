@@ -69,7 +69,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({
     ).slice(-2);
     const offset_min: any = ("0" + Math.abs(offsetInMinutes % 60)).slice(-2);
     const z5 = z4 + "+" + offset_hrs + "" + offset_min;
-
+      console.log(z5);
       return z5;
   }
   const AddParagraph = (e:any) => {
