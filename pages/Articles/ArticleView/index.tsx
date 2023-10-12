@@ -49,9 +49,13 @@ const ArticleView: React.FC<ArticleViewProps> = ({
            setIma(e.target.files[0]);
     }
   };
+  const onAuthorNameChange = (author:string) => {
+    setAuthorName(author)
+  };
   const handleUpdate = (value:string, index:number) => {
-    let cpy = [...componentsArray];
-    cpy[index].text = value;
+    const theParagraph =(value.length > 50)? value.slice(0, 50):value;
+    const cpy = [...componentsArray];
+    cpy[index].text = theParagraph;
     setComponentsArray(cpy);
   }
   const getDate = () => {
@@ -119,6 +123,8 @@ const ArticleView: React.FC<ArticleViewProps> = ({
             coverImage: imgUrl,
             title:  title,
             components: componentsArray,
+            authorName:authorName,
+            status: status
           });
           notification.open({
             message: "Article "+title+" updated with success",
@@ -139,6 +145,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       setComponents(Article.components);
       setComponentsArray(Article.components);
       setAuthorName(Article.authorName);
+      setStatus(Article.status);
   }, [Article]);
   
   console.log("STATUS", status, Article);
@@ -153,7 +160,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       title={title} 
       setTitle={setTitle}
       authorName = {authorName}
-      setAuthorName = {setAuthorName}
+      setAuthorName = {onAuthorNameChange}
       componentsArray={componentsArray}
       imgUrl = {imgUrl}
       imageChange={imageChange} 

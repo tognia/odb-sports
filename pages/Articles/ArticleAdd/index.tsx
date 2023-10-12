@@ -73,8 +73,9 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
   }
 
   const handleUpdate = (value:string, index:number) => {
+    const theParagraph =(value.length > 50)? value.slice(0, 50):value;
     const cpy = [...componentsArray];
-    cpy[index].text = value;
+    cpy[index].text = theParagraph;
     setComponentsArray(cpy);
      }
   const addItem = async (e:any) => {
