@@ -1,5 +1,5 @@
 import React, {  useEffect, useState } from "react";
-import { Form, Image } from 'antd';
+import { Form, Image, notification } from 'antd';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../database/firebase";
 import { doc, updateDoc } from "firebase/firestore";
@@ -9,8 +9,9 @@ import ArticleForm from "../ArticleForm";
   type ArticleViewType = {
     id:string;
     title : string;
-    body : string;
+    status : string;
     coverImage : string;
+    authorName:string;
     components:any[];
   };
 
@@ -29,9 +30,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({
   Article,
   onSubmitSucceed
 }) => {
-  const [form] = Form.useForm();
-  const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, body: Article.body, coverImage:Article.coverImage });
+  const [itemToUpdate, setItemToUpdtate] = useState({ title: Article.title, status: Article.status, coverImage:Article.coverImage });
   const [title, setTitle] = useState(Article.title);
+  const [status, setStatus] = useState(Article.status);
+  const [authorName, setAuthorName] = useState(Article.authorName);
   const [components, setComponents] = useState(Article.components);
   const [componentsArray, setComponentsArray] = useState(Article.components);
   const [ima, setIma] = useState<File>();
@@ -63,7 +65,6 @@ const ArticleView: React.FC<ArticleViewProps> = ({
     ).slice(-2);
     const offset_min: any = ("0" + Math.abs(offsetInMinutes % 60)).slice(-2);
     const z5 = z4 + "+" + offset_hrs + "" + offset_min;
-    console.log("Date Now 2025",z5);
 
       return z5;
   }
@@ -119,10 +120,14 @@ const ArticleView: React.FC<ArticleViewProps> = ({
             title:  title,
             components: componentsArray,
           });
+          notification.open({
+            message: "Article "+title+" updated with success",
+          });
         setUpdate(false);
         }     
  
      onSubmitSucceed();
+     
     }
     if(itemToUpdate.title!=="" && imgUrl!=="")
     updateArticle();    
@@ -133,18 +138,22 @@ const ArticleView: React.FC<ArticleViewProps> = ({
       setImgUrl(Article.coverImage);
       setComponents(Article.components);
       setComponentsArray(Article.components);
+      setAuthorName(Article.authorName);
   }, [Article]);
   
-  useEffect(() => {
+  console.log("STATUS", status, Article);
 
-  },[componentsArray] )
 
   return (
     
     <ArticleForm
+      setStatus={setStatus}
+      status={status}
       edit = {true} 
       title={title} 
       setTitle={setTitle}
+      authorName = {authorName}
+      setAuthorName = {setAuthorName}
       componentsArray={componentsArray}
       imgUrl = {imgUrl}
       imageChange={imageChange} 

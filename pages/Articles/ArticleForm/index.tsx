@@ -1,9 +1,16 @@
 import React from "react";
 import {Image } from 'antd';
+import SelectComponent from "../../../components/SelectComponent";
+import constants from "../../../constants";
+import InputText from "../../../components/InputText";
 
 interface ArticleFormProps {
     title : any;
     setTitle: (item:any) => void;
+    status:string;
+    setStatus:(status:any) => void;
+    authorName: string;
+    setAuthorName : (author:any) => void;
     componentsArray:any[];
     imgUrl: string;
     imageChange: (e:any) => void;
@@ -16,6 +23,10 @@ interface ArticleFormProps {
 const ArticleForm: React.FC<ArticleFormProps> = ({
     title,
     setTitle,
+    status,
+    setStatus,
+    authorName,
+    setAuthorName,
     componentsArray,
     imgUrl,
     imageChange,
@@ -46,6 +57,32 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
       type="text"
       placeholder="Enter Title"
     />
+    </div>
+    <div className="flex-col max-w-full mb-8 flex ml-10 mr-2">
+    <SelectComponent
+          key={"status"}
+          name="status"
+          disable={false}
+          label="Status"
+          oldChoice=""
+          onChange={setStatus}
+          required={true}
+          placehold=""
+          value={status}
+          values={Object.values(constants.ARTICLE_STATUS)}
+        />
+    </div>
+    <div className="flex-col max-w-full mb-8 flex ml-10 mr-2">
+    <InputText
+          edit={edit}
+          name="author"
+          defaultValue={authorName}
+          label="Author Name"
+          disable={false}
+          onChange={(e) => setAuthorName( e.target.value)}
+          required={true}
+          value={authorName}
+        />
     </div>
     
     {componentsArray.map((item:any, index) =>  (    

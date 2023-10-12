@@ -9,6 +9,7 @@ import {
   import { db } from "../../../database/firebase";
   import { storage } from "../../../database/firebase";
 import ArticleForm from "../ArticleForm";
+import { notification } from "antd";
 
 
 interface ArticleAddProps {
@@ -23,7 +24,9 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
 
   const [title, setTitle] = useState( "");
   const [ima, setIma] = useState<File>();
+  const [status, setStatus] = useState("Draft");
   const [imgUrl, setImgUrl] = useState("");
+  const [authorName, setAuthorName] = useState("");
   const [componentsArray, setComponentsArray] = useState([
     {num : 1,
     type: 'Paragraph',
@@ -39,6 +42,10 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     if (e.target.files && e.target.files.length > 0) {
            setIma(e.target.files[0]);
     }
+  };
+
+  const onAuthorNameChange = (author:string) => {
+    setAuthorName(author)
   };
   const AddParagraph = (e:any) => {
       e.preventDefault();
@@ -104,14 +111,21 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
         updatedAt: "",
         coverImage: imgUrl,
         title:  title,
+        authorName:authorName,
         components: componentsArray,
+        status: status,
     }
       );
      setTitle("");
      onSubmitSucceed();
+    
     }
-    if(title!=="" && imgUrl!=="")
-    addArticle();    
+    if(title!=="" && imgUrl!=="") {
+      addArticle(); 
+      notification.open({
+      message: "Article "+title+" added with success",
+    });   
+    }    
   }, [imgUrl])
 
   useEffect(() => {
@@ -119,11 +133,16 @@ const ArticleAdd: React.FC<ArticleAddProps> = ({
     console.log("componentsArray",componentsArray);
   }, [nbrParagraph]);
 
+  
   return (
     
     <ArticleForm
       edit = {false} 
       title={title} 
+      setStatus={setStatus}
+      status={status}
+      authorName = {authorName}
+      setAuthorName = {onAuthorNameChange}
       setTitle={setTitle} 
       componentsArray={componentsArray}
       imgUrl = {imgUrl}

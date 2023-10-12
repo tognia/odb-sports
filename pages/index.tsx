@@ -5,7 +5,7 @@ import { CMS_NAME } from "../lib/constants";
 import Navbar from "../components/navbar";
 
 import {
-  deleteDoc,
+  updateDoc,
   doc
 } from "firebase/firestore";
 import { db } from "../database/firebase";
@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import { useState, useEffect } from "react";
 import Sidebar1 from "../components/sidebar1";
+import { notification } from "antd";
 
 
 
@@ -31,7 +32,7 @@ export default function Index() {
   });
   const [showArticles, setShowArticles] = useState(false);
   const [showArticleAddForm, setShowArticleAddForm] = useState(false);
-  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", body: "", coverImage:"",components:[] });
+  const [articleSelected, setArticleSelected] = useState({ id : "", title: "", status:"", authorName: "", coverImage:"",components:[] });
   const [isItemUpdated, setisItemUpdated] = useState(0);
  
   
@@ -55,10 +56,8 @@ export default function Index() {
    function showViewForm(item:any){
     onAddOrViewArticle();
     setShowArticleAddForm(false);
-    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, 
-      body:item.body, components:item.components, coverImage:item.coverImage });
-      console.log("item selected",item);
-    
+    setArticleSelected({ ...articleSelected,id:item.id, title:item.title, status:item.status,
+       components:item.components, coverImage:item.coverImage, authorName:item.authorName });
    }
   function onAddOrViewArticle() {
     setShowArticles(false);
@@ -67,7 +66,15 @@ export default function Index() {
     setisItemUpdated(isItemUpdated+1);
  }
  const delteItem = async(id) => {
-  await deleteDoc(doc(db,'articles', id));
+  const deleteRef = doc(db, "articles", id);  
+    await updateDoc(deleteRef, {
+      status: "Deleted",
+      });
+    notification.open({
+      message: "Article deleted with success",
+    });
+  
+      
   setisItemUpdated(isItemUpdated+1);
 }
   useEffect(() => {

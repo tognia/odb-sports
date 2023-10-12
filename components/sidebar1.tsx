@@ -30,6 +30,7 @@ const Sidebar1: React.FC<SideMenuProps> = ({
       querySnapshot.forEach((doc) => {
         itemArr.push({ ...doc.data(), id: doc.id });
       });
+      itemArr = itemArr.filter((item:any) =>item.status!=="Deleted");
       setItems(itemArr);
       return unsubscribe();
     });
